@@ -6,7 +6,8 @@ import 'package:consol_info/screens/drawer/master/customer_dealers/customer_deal
 import 'package:consol_info/screens/drawer/master/product_category.dart';
 import 'package:consol_info/screens/drawer/master/product_screen/product_screen.dart';
 import 'package:consol_info/screens/drawer/master/service/service.dart';
-import 'package:consol_info/screens/drawer/quotation/create_quotation.dart';
+import 'package:consol_info/screens/drawer/quotation/create_combo.dart';
+import 'package:consol_info/screens/drawer/quotation/AddQuatation/create_quotation.dart';
 import 'package:consol_info/screens/drawer/quotation/quotation_list.dart';
 import 'package:consol_info/screens/drawer/quotation/services_quotation.dart';
 import 'package:consol_info/screens/drawer/services/services_request.dart';
@@ -52,7 +53,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'icon': Icons.format_quote,
       'children': [
         {'subtitle': 'Quotation List', 'icon': Icons.format_quote_outlined},
-        {'subtitle': 'Create Quotation', 'icon': Icons.format_quote_outlined},
+        {'subtitle': 'Add Product Quotation', 'icon': Icons.format_quote_outlined},
+        {'subtitle': 'Add Product Combo', 'icon': Icons.format_quote_outlined},
         {'subtitle': 'Services', 'icon': Icons.local_laundry_service},
         {'subtitle': 'Services Schedules', 'icon': Icons.schedule},
       ],
@@ -638,15 +640,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
           MaterialPageRoute(builder: (context) => const CustomersDealersScreen()),
         );
         break;
-      case 'Create Quotation':
+      case 'Add Product Quotation':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) =>  CreateQuotationScreen()),
         );
-        break;  case 'Quotation List':
+        break;
+        case 'Quotation List':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const QuotationList()),
+        );
+        break;
+        case 'Add Product Combo':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CreateCombo()),
         );
         break;
       case 'Services':

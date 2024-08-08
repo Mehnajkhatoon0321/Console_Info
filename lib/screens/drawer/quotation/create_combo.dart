@@ -9,13 +9,14 @@ import 'package:consol_info/utils/validator_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+class CreateCombo extends StatefulWidget {
+  const CreateCombo({super.key});
 
-class CreateQuotationScreen extends StatefulWidget {
   @override
-  _CreateQuotationScreenState createState() => _CreateQuotationScreenState();
+  State<CreateCombo> createState() => _CreateComboState();
 }
 
-class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
+class _CreateComboState extends State<CreateCombo> {
   List<Map<String, dynamic>> productCategories = [
     {
       "id": "1",
@@ -197,7 +198,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                     topRight: Radius.circular(8.0), // Apply border radius to top-right corner
                   ),
                   border: Border.all(
-                      color: AppColors.primaryColour,// Border color
+                    color: AppColors.primaryColour,// Border color
                     width: 1.0, // Border width
                   ),
                 ),// Light grey background for header
@@ -213,7 +214,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                     Expanded(
                       child: Center(
                         child:Text(
-                        'Select Customer' ,
+                          'Select Customer' ,
                           style: FTextStyle.HeadingTxtWhiteStyle,
                           textAlign: TextAlign.center,
                         ),
