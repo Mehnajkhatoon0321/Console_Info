@@ -1,10 +1,16 @@
 import 'package:consol_info/screens/drawer/master/product_screen/product_edit.dart';
+import 'package:consol_info/screens/drawer/quotation/AddQuatation/create_quotation.dart';
+import 'package:consol_info/utils/CommonFuction.dart';
 import 'package:consol_info/utils/colours.dart';
 import 'package:consol_info/utils/flutter_flow_animations.dart';
 import 'package:consol_info/utils/font_text_Style.dart';
 import 'package:consol_info/utils/form_field_style.dart';
+import 'package:consol_info/utils/no_space_input_formatter_class.dart';
+import 'package:consol_info/utils/validator_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AddModelDetails extends StatefulWidget {
   String screenFlag;
    AddModelDetails({required this.screenFlag,super.key});
@@ -95,31 +101,93 @@ class _AddModelDetailsState extends State<AddModelDetails> {
   List<Map<String, dynamic>> productCategories = [
     {
       "id": "1",
-      'name': "Mahi Khan",
-      "whatsappNumber": "98765432123",
+      "Model":"DHI-NVR1108HS-S3/h",
+      'brandName': "Camera ",
+      "description": "4 MP Demo Full Colour Silver",
+      "price":"4850",
+      "waranty":"2 year",
+      "quantity":"2",
+      "total":"3200"
+
+
 
     },
-    {
+     {
       "id": "2",
-      'name': "John Doe",
-      "whatsappNumber": "98765432124",
+      "Model":"DHI-NVR1108HS-S3/h",
+      'brandName': "Camera ",
+      "description": "4 MP Demo Full Colour Silver",
+      "price":"4850",
+      "waranty":"2 year",
+      "quantity":"2",
+      "total":"3200"
+
+
 
     },
+
     // Add more categories as needed
   ];
   bool _isTextEmpty = true;
+  final ValueNotifier<int> total = ValueNotifier<int>(0);
+  bool isButtonEnabled = false;
+  int quantity = 1;
+  late final FocusNode _gstTypeNode = FocusNode();
+  String price = '';
+  List<String> gstCategories = [
+    'Included',
+    'Excluded',
+
+  ];
+  String? selectGstType;
   void _clearText() {
     _controller.clear();
     setState(() {
       _isTextEmpty = true;
     });
   }
+
+  @override
+  void initState() {
+    if (gstCategories.isNotEmpty) {
+      selectGstType = gstCategories[0]; // Set default value to the first item
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+  late final GlobalKey<FormFieldState<String>> _descriptionsKey =
+  GlobalKey<FormFieldState<String>>();
   Map<String, dynamic>? selectedProductCategory;
   bool isProductCategoryFieldFocused = false;
+  bool isWarrantyFieldFocused = false;
+  bool isQuantityFieldFocused = false;
+  bool isDescriptionFieldFocused = false;
+  bool isModelFieldFocused = false;
   late final FocusNode _productCategoryNode = FocusNode();
+  late final FocusNode _brandNode = FocusNode();
+  late final FocusNode _warrantyNode = FocusNode();
+  late final FocusNode _descriptionNode = FocusNode();
+  late final FocusNode _priceNode = FocusNode();
+  late final FocusNode _quantityNode = FocusNode();
   late final TextEditingController _controller = TextEditingController();
+  late final TextEditingController brand = TextEditingController();
   late final TextEditingController productCategory = TextEditingController();
+  late final TextEditingController descriptions = TextEditingController();
+  late final TextEditingController warranty = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController gst = TextEditingController();
+  late final GlobalKey<FormFieldState<String>> gstKey =
+  GlobalKey<FormFieldState<String>>();
   late final GlobalKey<FormFieldState<String>> _productCategoryKey =
+  GlobalKey<FormFieldState<String>>();
+  late final GlobalKey<FormFieldState<String>> _brandKey =
+  GlobalKey<FormFieldState<String>>();
+  late final GlobalKey<FormFieldState<String>> _warrantyKey =
+  GlobalKey<FormFieldState<String>>();
+  late final GlobalKey<FormFieldState<String>> _priceKey =
+  GlobalKey<FormFieldState<String>>();
+  late final GlobalKey<FormFieldState<String>> _quantityKey =
   GlobalKey<FormFieldState<String>>();
   void _showBottomSheet() {
     showModalBottomSheet(
@@ -256,9 +324,13 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                             onTap: () {
                               setState(() {
                                 selectedProductCategory = category;
-                                productCategory.text = category['name'] ?? '';
-                                // whatsApp.text = category['whatsappNumber'] ?? '';
-                                // address.text = category['Address'] ?? '';
+                                productCategory.text = category['Model'] ?? '';
+                                descriptions.text = category['description'] ?? '';
+                                priceController.text = category['price'] ?? '';
+                                brand.text = category['brandName'] ?? '';
+                                quantityController.text = category['quantity'] ?? '';
+                                warranty.text = category['waranty'] ?? '';
+                                total.value = int.tryParse(category['total'] ?? '0') ?? 0;
                               });
                               Navigator.pop(context);
                             },
@@ -269,25 +341,35 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Text("Name: ", style: FTextStyle.listTitle),
-                                      Text(category['name'] ?? '', style: FTextStyle.listTitleSub),
+                                      const Text("Model: ", style: FTextStyle.listTitle),
+                                      Text(category['Model'] ?? '', style: FTextStyle.listTitleSub),
                                     ],
                                   ),
                                   const SizedBox(height: 5),
                                   Row(
                                     children: [
-                                      const Text("WhatsApp Number: ", style: FTextStyle.listTitle),
-                                      Text(category['whatsappNumber'] ?? '', style: FTextStyle.listTitleSub),
+                                      const Text("Brand: ", style: FTextStyle.listTitle),
+                                      Text(category['brandName'] ?? '', style: FTextStyle.listTitleSub),
                                     ],
                                   ),
                                   const SizedBox(height: 5),
 
-                                  // Row(
-                                  //   children: [
-                                  //     const Text("Address: ", style: FTextStyle.listTitle),
-                                  //     Text(category['Address'] ?? '', style: FTextStyle.listTitleSub),
-                                  //   ],
-                                  // ),
+                                  Row(
+                                    children: [
+                                      const Text("Description: ", style: FTextStyle.listTitle),
+                                      Text(category['description'] ?? '', style: FTextStyle.listTitleSub),
+                                    ],
+                                  ),
+
+                                  Row(
+                                    children: [
+                                      const Text("Price: ", style: FTextStyle.listTitle),
+                                      Text(category['price'] ?? '', style: FTextStyle.listTitleSub),
+                                    ],
+                                  ),
+
+
+
 
                                 ],
                               ),
@@ -310,8 +392,11 @@ class _AddModelDetailsState extends State<AddModelDetails> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
+    var valueType = CommonFunction.getMyDeviceType(MediaQuery.of(context));
+    var displayType = valueType.toString().split('.').last;
     return   Scaffold(
       backgroundColor:Colors.white,
       appBar: AppBar(
@@ -357,6 +442,49 @@ class _AddModelDetailsState extends State<AddModelDetails> {
            Padding(
              padding: const EdgeInsets.only(top: 20, bottom: 15, left: 20, right: 20),
              child: Form(
+
+               onChanged: () {
+                 if (selectedProductCategory != null && selectedProductCategory!.isNotEmpty
+                     && ValidatorUtils.isValidCommon(brand.text) && ValidatorUtils.isValidCommon(warranty.text)
+                     && ValidatorUtils.isValidCommon(priceController.text) && ValidatorUtils.isValidCommon(quantityController.text)
+                     && ValidatorUtils.isValidCommon(gst.text)
+                     && ValidatorUtils.isValidCommon(descriptions.text)
+                 ) {
+                   setState(() {
+                     isButtonEnabled = true;
+                   });
+                 } else {
+                   setState(() {
+                     isButtonEnabled = false;
+                   });
+                 }
+
+                 if (isProductCategoryFieldFocused == true) {
+                   _productCategoryKey.currentState!.validate();
+                 }
+
+                 if (isWarrantyFieldFocused == true) {
+                   _warrantyKey.currentState!.validate();
+                 }
+
+                 if (isDescriptionFieldFocused == true) {
+                   _descriptionsKey.currentState!.validate();
+                 }
+
+
+
+
+
+
+
+
+
+
+               },
+
+
+
+
                child: Column(
                  crossAxisAlignment: CrossAxisAlignment.start,
                  mainAxisAlignment:MainAxisAlignment.start ,
@@ -423,6 +551,387 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                        ),
                      ),
                    ),
+                   Text(
+                     "Product Description ",
+                     style: FTextStyle.formLabelTxtStyle,
+                   ).animateOnPageLoad(
+                       animationsMap['imageOnPageLoadAnimation2']!),
+
+
+                   Padding(
+                     padding: const EdgeInsets.symmetric(vertical: 10.0),
+                     child: TextFormField(
+                       key: _descriptionsKey,
+                       focusNode: _descriptionNode,
+                       keyboardType: TextInputType.multiline, // Allow multiline input
+                       // maxLines: 5, // Display a maximum of 5 lines
+                       decoration: FormFieldStyle.defaultAddressInputDecoration.copyWith(
+                         hintText: "Enter description",
+                       ),
+                       inputFormatters: [NoSpaceFormatter()],
+                       controller: descriptions,
+                       validator: ValidatorUtils.model,
+                       onTap: () {
+                         setState(() {
+                           isProductCategoryFieldFocused = false;
+
+                           isDescriptionFieldFocused = true;
+
+                         });
+                       },
+                     ).animateOnPageLoad(
+                       animationsMap['imageOnPageLoadAnimation2']!,
+                     ),
+                   ),
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Expanded(
+                         child: Text(
+                           "Brand",
+                           style: FTextStyle.formLabelTxtStyle,
+                         ).animateOnPageLoad(
+                             animationsMap['imageOnPageLoadAnimation2']!),
+                       ),
+                       const SizedBox(width: 20,),
+                       Expanded(
+                         child: Text(
+                           "Warranty ",
+                           style: FTextStyle.formLabelTxtStyle,
+                         ).animateOnPageLoad(
+                             animationsMap['imageOnPageLoadAnimation2']!),
+                       ),
+                     ],
+                   ),
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Expanded(
+                         child: Padding(
+                           padding:  const EdgeInsets.symmetric(vertical: 10.0),
+                           child: TextFormField(
+                             key: _brandKey,
+                             readOnly: true,
+                             focusNode: _brandNode,
+                             keyboardType: TextInputType.emailAddress,
+                             decoration: FormFieldStyle.defaultAddressInputDecoration.copyWith(hintText: "Enter Brand"),
+                             inputFormatters: [NoSpaceFormatter()],
+                             controller: brand,
+                             validator: ValidatorUtils.model,
+                             onTap: () {
+                               setState(() {
+                                 isProductCategoryFieldFocused=false;
+
+                                 isModelFieldFocused = true;
+
+                               });
+                             },
+                           ).animateOnPageLoad(
+                               animationsMap['imageOnPageLoadAnimation2']!),
+                         ),
+                       ),
+                      const SizedBox(width: 20,),
+                       Expanded(
+                         child: Padding(
+                           padding:  const EdgeInsets.symmetric(vertical: 10.0),
+                           child: TextFormField(
+                             key: _warrantyKey,
+                             readOnly: true,
+                             focusNode: _warrantyNode,
+                             keyboardType: TextInputType.text,
+                             decoration: FormFieldStyle.defaultAddressInputDecoration.copyWith(hintText: "Enter Warranty"),
+                             inputFormatters: [NoSpaceFormatter()],
+                             controller: warranty,
+                             validator: ValidatorUtils.model,
+                             onTap: () {
+                               setState(() {
+                                 isProductCategoryFieldFocused=false;
+
+                                 isModelFieldFocused = false;
+                                 isWarrantyFieldFocused = true;
+
+                               });
+                             },
+                           ).animateOnPageLoad(
+                               animationsMap['imageOnPageLoadAnimation2']!),
+                         ),
+                       ),
+
+                     ],
+                   ),
+
+
+
+
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Expanded(
+                         child: const Text(
+                           "Price",
+                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                         ).animateOnPageLoad(
+                           animationsMap['imageOnPageLoadAnimation2']!,
+                         ),
+                       ),
+                       const SizedBox(width: 20),
+                       Expanded(
+                         child: const Text(
+                           "Quantity",
+                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                         ).animateOnPageLoad(
+                           animationsMap['imageOnPageLoadAnimation2']!,
+                         ),
+                       ),
+                     ],
+                   ),
+
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Expanded(
+                         child: Padding(
+                           padding: const EdgeInsets.symmetric(vertical: 10.0),
+                           child: TextFormField(
+                             key: _priceKey,
+                             focusNode: _priceNode,
+                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                             decoration:FormFieldStyle.defaultAddressInputDecoration.copyWith(hintText: "Enter Price"),
+                             controller: priceController,
+                             inputFormatters: [
+                               FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                             ],
+                             onChanged: (value) {
+                               setState(() {
+
+                                 price = value;
+                                 _updateTotal();
+                               });
+                             },
+                           ).animateOnPageLoad(
+                             animationsMap['imageOnPageLoadAnimation2']!,
+                           ),
+                         ),
+                       ),
+                       const SizedBox(width: 20),
+                       Expanded(
+                         child: Padding(
+                           padding: const EdgeInsets.symmetric(vertical: 10.0),
+                           child: TextField(
+                             controller: quantityController,
+                             onChanged: (value) {
+                               setState(() {
+                                 isQuantityFieldFocused=true;
+                                 quantity = int.tryParse(value) ?? 1;
+                                 _updateTotal();
+                               });
+                             },
+                             textAlign: TextAlign.center,
+                             maxLength: 10,
+                             keyboardType: TextInputType.number,
+                             inputFormatters: [
+                               FilteringTextInputFormatter.digitsOnly,
+                             ],
+
+                             decoration:FormFieldStyle.defaultAddressInputDecoration.copyWith(  filled: true,
+                                 prefixIcon: InkWell(
+                                   onTap: () {
+                                     setState(() {
+                                       if (quantity > 1) {
+                                         quantity -= 1;
+                                         quantityController.text = "$quantity";
+                                         _updateTotal();
+                                       }
+                                     });
+                                   },
+                                   child: Container(
+                                     margin: const EdgeInsets.symmetric(horizontal: 5),
+                                     decoration: BoxDecoration(
+                                       color: AppColors.primaryColour,
+                                       borderRadius: BorderRadius.circular(10),
+                                     ),
+                                     child: const Icon(
+                                       Icons.remove,
+                                       color: Colors.white,
+                                     ),
+                                   ),
+                                 ),
+                                 suffixIcon: InkWell(
+                                   onTap: () {
+                                     setState(() {
+                                       quantity += 1;
+                                       quantityController.text = "$quantity";
+                                       _updateTotal();
+                                     });
+                                   },
+                                   child: Container(
+                                     margin: const EdgeInsets.symmetric(horizontal: 5),
+                                     decoration: BoxDecoration(
+                                       color:AppColors.primaryColour,
+                                       borderRadius: BorderRadius.circular(10),
+                                     ),
+                                     child: const Icon(
+                                       Icons.add,
+                                       color: Colors.white,
+                                     ),
+                                   ),
+                                 ),
+                                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                 hintText: "Quantity",
+                                 counterText: "",
+                             )
+
+                           ),
+                         ),
+                       ),
+                     ],
+                   ),
+                   const SizedBox(height: 20),
+                   Row(
+                     children: [
+                       Expanded(
+                         child: Text(
+                           "GST (18 %)",
+                           style: FTextStyle.formLabelTxtStyle,
+                         ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                       ),
+                       const SizedBox(width: 8), // Add spacing between text and input field
+                       Expanded(
+                         child:
+                         Padding(
+                           padding: const EdgeInsets.symmetric(vertical: 10.0),
+                           child: DropdownButtonFormField<String>(
+                             key: gstKey,
+                             focusNode: _gstTypeNode,
+                             value: selectGstType,
+                             hint: const Text("Select UserType",style: FTextStyle.formhintTxtStyle,),
+                             items: gstCategories
+                                 .map((category) => DropdownMenuItem(
+                               value: category,
+                               child: Text(category),
+                             ))
+                                 .toList(),
+                             onChanged: (newValue) {
+
+
+                               setState(() {
+                                 selectGstType = newValue;
+
+
+
+                                 // if (totalAmountAllowance >= 0) {
+                                 //   if (selectGstType == gstCategories[0]) { // Assuming 'Included' is the first category
+                                 //     // Calculate totalMaintenance as 18% of the allowance
+                                 //     totalMaintenance = (totalAmountAllowance * 0.18).round();
+                                 //   }
+                                 //
+                                 //   // Set totalGstAllowance based on GST inclusion or exclusion
+                                 //   totalGstAllowance = selectGstType == gstCategories[0]
+                                 //       ? totalAmountAllowance + totalMaintenance // GST included
+                                 //       : totalAmountAllowance; // GST excluded
+                                 // } else {
+                                 //   // Handle negative allowance case
+                                 //   totalGstAllowance = totalAmountAllowance; // No GST added
+                                 // }
+
+
+
+                               });
+
+
+
+
+                             },
+                             decoration:FormFieldStyle.dropDown,
+
+                             validator: ValidatorUtils.model,
+                           ),
+                         ),
+                       ),
+                     ],
+                   ),
+               Padding(
+                 padding:  EdgeInsets.symmetric(vertical: 10.h),
+                 child: Container(
+                   height: 50,
+                   decoration: BoxDecoration(
+                     color: AppColors.FormFieldBackColour,
+                     borderRadius: BorderRadius.circular(12),
+                     border: Border.all(color: AppColors.FormFieldBorderColour)
+                    ),
+
+
+                 child: Padding(
+                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       const Text(
+                         "Total",
+                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                       ).animateOnPageLoad(
+                         animationsMap['imageOnPageLoadAnimation2']!,
+                       ),
+                       ValueListenableBuilder<int>(
+                         valueListenable: total,
+                         builder: (context, totalValue, child) {
+                           return Text(
+                             "${totalValue}",
+                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                           );
+                         },
+                       ),
+                     ],
+                   ),
+                 ),
+                 ),),
+                   const SizedBox(height: 45),
+                   Center(
+                     child: Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                       child: SizedBox(
+                         height:
+                         (displayType == 'desktop' || displayType == 'tablet')
+                             ? 70
+                             : 52,
+                         child: ElevatedButton(
+                           onPressed: isButtonEnabled
+                               ? () async {
+
+                             Navigator.push(
+                               context,
+                               MaterialPageRoute(
+                                 builder: (context) =>   CreateQuotationScreen(),
+                               ),
+                             );
+
+                           }
+                               : null,
+                           style: ElevatedButton.styleFrom(
+                             shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(26),
+                             ),
+                             backgroundColor: isButtonEnabled
+                                 ? AppColors.primaryColour
+                                 : AppColors.drawerdisableButtonColor,
+                           ),
+                           child: Text(
+                             'Add Model Description',
+                             style: FTextStyle.loginBtnStyle,
+                           ),
+                         ),
+                       ).animateOnPageLoad(
+                           animationsMap['imageOnPageLoadAnimation2']!),
+                     ),
+                   ),
+                   const SizedBox(height: 20),
+
+
                  ],
                ),
              ),
@@ -432,5 +941,9 @@ class _AddModelDetailsState extends State<AddModelDetails> {
         ),
       ),
     );
+  }
+  void _updateTotal() {
+    int priceValue = int.tryParse(priceController.text.trim()) ?? 0;
+    total.value = priceValue * quantity;
   }
 }

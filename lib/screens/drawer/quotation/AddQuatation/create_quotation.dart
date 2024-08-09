@@ -443,25 +443,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       });
     }
   }
-  void _selectDateTo(BuildContext context) async {
-    DateTime currentDate = DateTime.now();
-    DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-    );
 
-    if (selectedDate != null && selectedDate != currentDate) {
-      // Format the date to dd-MM-yyyy
-      String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate);
-
-      setState(() {
-
-        validityTO.text = formattedDate;
-      });
-    }
-  }
   int totalAmount = 0;
   int totalAmountAllowance = 0;
   int totalMaintenance=0;
@@ -1486,7 +1468,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                                                   style: FTextStyle.cartItemColors,
                                                 ),
                                                 Text(
-                                                    isServiceSelected==false ?"0": "₹${totalAmountServices.toString()}",
+                                                    isServiceSelected==false ?"₹ 0": "₹${totalAmountServices.toString()}",
                                                   style: FTextStyle.formLabelTxtStyle,
                                                 ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
                                               ],
@@ -1527,7 +1509,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                                             style: FTextStyle.cartItemColors,
                                           ),
                                           Text(
-                                            '${(totalGstAllowance + (isServiceSelected ? totalAmountServices : 0) + totalAmount).toString()} ₹',
+                                            '₹${(totalGstAllowance + (isServiceSelected ? totalAmountServices : 0) + totalAmount).toString()} ',
                                             style: FTextStyle.FaqsTxtStyle,
                                           )
 
