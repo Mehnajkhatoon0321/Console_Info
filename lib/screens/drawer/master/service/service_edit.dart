@@ -76,10 +76,9 @@ class _ServiceEditState extends State<ServiceEdit> {
 
 
   List<String> gstName = [
-    'gst A',
-    'gst B',
-    'gst C',
-    'gst D',
+    '18%',
+    '28%',
+
 
   ];
   bool isLoading = false;
@@ -542,7 +541,7 @@ class _ServiceEditState extends State<ServiceEdit> {
                       : AppColors.drawerdisableButtonColor,
                 ),
                 child: Text(
-                  widget.screenFlag.isEmpty ? 'Add Product' : 'Save Changes',
+                  widget.screenFlag.isEmpty ? 'Add Services' : 'Save Changes',
                   style: FTextStyle.loginBtnStyle,
                 ),
               ),

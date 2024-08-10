@@ -44,6 +44,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       "price": "₹1000",
       "quantity": "10",
       "total": "₹10000",
+      "description":"4 MP DOME FULL COLOUR SILVER SERIES"
     },
     {
       "model": "Model B",
@@ -53,6 +54,7 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       "price": "₹2000",
       "quantity": "5",
       "total": "₹10000",
+      "description":"4 MP DOME FULL COLOUR SILVER SERIES"
     },
     // Add more items as needed
   ];
@@ -812,7 +814,16 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>  AddModelDetails(
-                              screenFlag:""
+                              screenFlag:"",
+                               modelName :""   ,
+                              brandName:"",
+                              gst:"",
+                              warranty:"",
+                              amount:"",
+                              quantity:"",
+                              total:"",
+                            descriptions: "",
+
                           )),
                         );
                       },
@@ -885,7 +896,20 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                                     onPressed: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => AddModelDetails(screenFlag: "edit")),
+                                        MaterialPageRoute(builder: (context) => AddModelDetails(
+                                            screenFlag: "edit",
+
+                                          modelName :"${item["model"]}" ,
+                                          brandName:"${ item["brand"]}",
+                                          gst:"${item["gst"]}",
+                                          warranty:"${item["warranty"]}",
+                                          amount:"${item["price"]}",
+                                          quantity:"${item["quantity"]}",
+                                          total:"${item["total"]}",
+                                          descriptions: "${item["price"]}",
+
+
+                                        )),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -968,7 +992,18 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                       onTap: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  AddModelDetails(screenFlag:"")),
+                          MaterialPageRoute(builder: (context) =>  AddModelDetails(
+
+
+                            screenFlag:"",
+                            modelName :""   ,
+                            brandName:"",
+                            gst:"",
+                            warranty:"",
+                            amount:"",
+                            quantity:"",
+                            total:"",
+                            descriptions: "",)),
                         );
                       },
                       child: Container(

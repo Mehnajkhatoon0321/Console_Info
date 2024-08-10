@@ -11,9 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 class AddModelDetails extends StatefulWidget {
+
+
   String screenFlag;
-   AddModelDetails({required this.screenFlag,super.key});
+  String modelName;
+  String brandName;
+  String gst;
+  String warranty;
+  String amount;
+  String quantity;
+  String total;
+  String descriptions;
+
+
+   AddModelDetails({required this.screenFlag,required this.modelName,required this.brandName,required this.quantity,required this.gst,required this.warranty,required this.amount,required this.total,required this.descriptions,super.key});
 
   @override
   State<AddModelDetails> createState() => _AddModelDetailsState();
@@ -151,6 +164,19 @@ class _AddModelDetailsState extends State<AddModelDetails> {
   void initState() {
     if (gstCategories.isNotEmpty) {
       selectGstType = gstCategories[0]; // Set default value to the first item
+    }
+
+    if (widget.screenFlag.isNotEmpty) {
+      descriptions.text = widget.descriptions;
+      productCategory.text=widget.modelName;
+      warranty.text = widget.warranty;
+      brand.text=widget.brandName;
+      priceController.text=widget.amount;
+      quantityController.text=widget.quantity;
+      NumberFormat format = NumberFormat.currency(symbol: '₹', decimalDigits: 0);
+      total.value = format.parse(widget.total).toInt();
+
+
     }
     // TODO: implement initState
     super.initState();
@@ -447,7 +473,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                  if (selectedProductCategory != null && selectedProductCategory!.isNotEmpty
                      && ValidatorUtils.isValidCommon(brand.text) && ValidatorUtils.isValidCommon(warranty.text)
                      && ValidatorUtils.isValidCommon(priceController.text) && ValidatorUtils.isValidCommon(quantityController.text)
-                     && ValidatorUtils.isValidCommon(gst.text)
+
                      && ValidatorUtils.isValidCommon(descriptions.text)
                  ) {
                    setState(() {
@@ -764,6 +790,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                                  suffixIcon: InkWell(
                                    onTap: () {
                                      setState(() {
+
                                        quantity += 1;
                                        quantityController.text = "$quantity";
                                        _updateTotal();
@@ -943,7 +970,13 @@ class _AddModelDetailsState extends State<AddModelDetails> {
     );
   }
   void _updateTotal() {
-    int priceValue = int.tryParse(priceController.text.trim()) ?? 0;
-    total.value = priceValue * quantity;
+
+
+       int priceValue = int.tryParse(priceController.text.trim()) ?? 0;
+       total.value = priceValue * quantity;
+
+
+
+
   }
 }
