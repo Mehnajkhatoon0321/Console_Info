@@ -1,7 +1,9 @@
+import 'package:consol_info/all_api/auth_flow/auth_flow_bloc.dart';
 import 'package:consol_info/screens/dashboard_screen.dart';
 import 'package:consol_info/screens/forgot_password.dart';
 import 'package:consol_info/utils/CommonFuction.dart';
 import 'package:consol_info/utils/colours.dart';
+import 'package:consol_info/utils/common_popups.dart';
 import 'package:consol_info/utils/constant.dart';
 import 'package:consol_info/utils/flutter_flow_animations.dart';
 import 'package:consol_info/utils/font_text_Style.dart';
@@ -11,6 +13,7 @@ import 'package:consol_info/utils/pref_utils.dart';
 import 'package:consol_info/utils/validator_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,9 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _email = TextEditingController();
   late final TextEditingController _password = TextEditingController();
   late final GlobalKey<FormFieldState<String>> _emailKey =
-      GlobalKey<FormFieldState<String>>();
+  GlobalKey<FormFieldState<String>>();
   late final GlobalKey<FormFieldState<String>> _passwordKey =
-      GlobalKey<FormFieldState<String>>();
+  GlobalKey<FormFieldState<String>>();
   late final FocusNode _emailFocusNode = FocusNode();
   late final FocusNode _passwordFocusNode = FocusNode();
 
@@ -159,6 +162,58 @@ class _LoginScreenState extends State<LoginScreen> {
     var valueType = CommonFunction.getMyDeviceType(MediaQuery.of(context));
     var displayType = valueType.toString().split('.').last;
 
+    return BlocConsumer<AuthFlowBloc, AuthFlowState>(
+  listener: (context, state) {
+    {
+      if (state is AuthFlowLoading) {
+        setState(() {
+          isLoading = true;
+        });
+
+      } else if (state is LogSuccess) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Map<String, dynamic> data = state.logResponse;
+        if (data["token"] != null) {
+          String bearerToken = data["token"];
+          PrefUtils.setToken(bearerToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  DashboardScreen(),
+            ),
+          );
+        }
+
+
+      } else if (state is LogFailure) {
+        setState(() {
+          isLoading = false;
+        });
+
+        CommonPopups.showCustomPopup(context, state.failureMessage);
+
+      }
+
+
+      else if (state is CheckNetworkConnection){
+
+        CommonPopups.showCustomPopup(
+          context,
+          'Internet is not connected.',
+
+        );
+
+
+      }
+    }
+
+
+
+  },
+  builder: (context, state) {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -191,9 +246,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ListView(
                   padding: EdgeInsets.symmetric(
                     horizontal:
-                        (displayType == 'desktop' || displayType == 'tablet')
-                            ? 50
-                            : 20,
+                    (displayType == 'desktop' || displayType == 'tablet')
+                        ? 50
+                        : 20,
                   ),
                   children: [
                     // const SizedBox(
@@ -212,16 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             : 160,
                       ),
                     ),
-                    // Center(
-                    //   child: Text(
-                    //     " Console  Info ",
-                    //     style: FTextStyle.HeadingTab,
-                    //   ),
-                    // ).animateOnPageLoad(
-                    //     animationsMap['imageOnPageLoadAnimation2']!),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
+
                     Center(
                       child: Text(
                         Constants.welcomeTxt,
@@ -394,29 +440,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 65),
                     SizedBox(
                       height:
-                          (displayType == 'desktop' || displayType == 'tablet')
-                              ? 70
-                              : 52,
+                      (displayType == 'desktop' || displayType == 'tablet')
+                          ? 70
+                          : 52,
                       child: ElevatedButton(
                         onPressed: isButtonEnabled
                             ? () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>  DashboardScreen(),
-                                  ),
-                                );
+                          setState(() {
+                            isLoading = true;
+                          });
 
-                                // BlocProvider.of<AuthenticationBloc>(context).add(
-                                //   LoginEventHandler(
-                                //     email: _email.text.toString(),
-                                //     password: _password.text.toString(),
-                                //   ),
-                                // );
-                              }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>  DashboardScreen(),
+                            ),
+                          );
+                          // BlocProvider.of<AuthenticationBloc>(context).add(
+                          //   LoginEventHandler(
+                          //     email: _email.text.toString(),
+                          //     password: _password.text.toString(),
+                          //   ),
+                          // );
+                        }
                             : null,
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -426,10 +472,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? AppColors.primaryColour
                               : AppColors.drawerdisableButtonColor,
                         ),
-                        child: Text(
-                          Constants.loginBtnTxt,
-                          style: FTextStyle.loginBtnStyle,
-                        ),
+                        child:Text(
+                            Constants.loginBtnTxt,
+                            style: FTextStyle.loginBtnStyle,
+                          )
+
+                        // isLoading? CircularProgressIndicator(color: Colors.white,):Text(
+                        //   Constants.loginBtnTxt,
+                        //   style: FTextStyle.loginBtnStyle,
+                        // )
                       ),
                     ).animateOnPageLoad(
                         animationsMap['imageOnPageLoadAnimation2']!),
@@ -442,5 +493,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  },
+);
   }
 }
+

@@ -44,6 +44,10 @@ dependencies:
   intl:
   geolocator:
   geocoding:
+  http:
+  smooth_page_indicator:
+
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:consol_info/screens/login_screen.dart';
+import 'package:consol_info/screens/onboarding.dart';
 import 'package:consol_info/utils/CommonFuction.dart';
 import 'package:consol_info/utils/font_text_Style.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (BuildContext context) {
-        return const LoginScreen();
+        return const OnboardingScreen();
       }),
           (route) => false,
     );

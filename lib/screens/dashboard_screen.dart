@@ -555,11 +555,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Container(
                 color: Colors.grey[100],
                 child: ListTile(
-                  trailing: const Icon(
-                    Icons.navigate_next_outlined,
-                    size: 28,
-                    color: Colors.black,
-                  ),
+                  // trailing: const Icon(
+                  //   Icons.navigate_next_outlined,
+                  //   size: 28,
+                  //   color: Colors.black,
+                  // ),
                   leading: Icon(item['icon']),
                   title: Text(item['subtitle'], style: FTextStyle.Faqssubtitle),
                   onTap: () {

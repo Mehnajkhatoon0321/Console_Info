@@ -292,6 +292,12 @@ class FTextStyle {
 
   );
 
+  static TextStyle TextSnakbar = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 10.sp,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
 
 
 

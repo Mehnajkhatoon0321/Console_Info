@@ -1,7 +1,6 @@
 import 'package:consol_info/screens/drawer/master/product_screen/product_screen.dart';
 import 'package:consol_info/utils/CommonFuction.dart';
 import 'package:consol_info/utils/colours.dart';
-import 'package:consol_info/utils/constant.dart';
 import 'package:consol_info/utils/flutter_flow_animations.dart';
 import 'package:consol_info/utils/font_text_Style.dart';
 import 'package:consol_info/utils/form_field_style.dart';
@@ -17,7 +16,7 @@ class ProductEdit extends StatefulWidget {
   final String warranty;
 
 
-   ProductEdit({Key? key, required this.screenFlag, required this.productDescription, required this.barandname, required this.model, required this.warranty, }) : super(key: key);
+   const ProductEdit({super.key, required this.screenFlag, required this.productDescription, required this.barandname, required this.model, required this.warranty, });
 
   @override
   _ProductEditState createState() => _ProductEditState();
@@ -111,6 +110,7 @@ class _ProductEditState extends State<ProductEdit> {
       descriptions.text = widget.productDescription;
       model.text = widget.model;
       warranty.text = widget.warranty;
+      // selectedBrand = widget.screenFlag.isNotEmpty ? widget.barandname : null;
     }
   }
   @override
@@ -310,7 +310,7 @@ class _ProductEditState extends State<ProductEdit> {
                       key: _productCategoryKey,
                       focusNode: _productCategoryNode,
                       value: selectedProductCategory,
-                      hint: Text("Select Product Category",style: FTextStyle.formhintTxtStyle,),
+                      hint: const Text("Select Product Category",style: FTextStyle.formhintTxtStyle,),
                       items: productCategories
                           .map((category) => DropdownMenuItem(
                         value: category,
@@ -353,11 +353,13 @@ class _ProductEditState extends State<ProductEdit> {
                     child: DropdownButtonFormField<String>(
                       key: _brandKey,
                       focusNode: _brand,
+
                       value: selectedBrand,
-                      hint: Text("Select Brand",style: FTextStyle.formhintTxtStyle,),
+                      hint: const Text("Select Brand",style: FTextStyle.formhintTxtStyle,),
 
                       items: brandName
                           .map((category) => DropdownMenuItem(
+
                         value: category,
                         child: Text(category),
                       ))

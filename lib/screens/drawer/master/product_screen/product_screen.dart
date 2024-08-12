@@ -331,7 +331,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                     screenFlag :"edit",
                                   productDescription:item["product_description"],
-                                 barandname:   item["brand"],
+                                 barandname: item["brand"],
                                  model:  item["model"],
                                  warranty:  item["model"],
 

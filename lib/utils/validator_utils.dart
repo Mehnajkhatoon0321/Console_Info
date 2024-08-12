@@ -66,11 +66,7 @@ class ValidatorUtils {
     try {
       // Try parsing the date using the expected format
       final DateTime parsedDate = DateFormat('dd-MM-yyyy').parseStrict(value);
-      // Optionally, you can add range checks here if needed
-      // For example:
-      // if (parsedDate.isBefore(DateTime(1900, 1, 1)) || parsedDate.isAfter(DateTime(2100, 12, 31))) {
-      //   return 'Date must be between 01-01-1900 and 31-12-2100.';
-      // }
+
     } catch (e) {
       return 'Invalid date format. Use dd-MM-yyyy.';
     }
