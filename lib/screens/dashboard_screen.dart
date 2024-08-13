@@ -1,3 +1,4 @@
+import 'package:consol_info/all_api/auth_flow/auth_flow_bloc.dart';
 import 'package:consol_info/screens/drawer/employee/leave/all_leaves.dart';
 import 'package:consol_info/screens/drawer/employee/profile_details.dart';
 import 'package:consol_info/screens/drawer/master/brand.dart';
@@ -17,6 +18,7 @@ import 'package:consol_info/utils/attendance_service.dart';
 import 'package:consol_info/utils/colours.dart';
 import 'package:consol_info/utils/flutter_flow_animations.dart';
 import 'package:consol_info/utils/font_text_Style.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 
 import 'package:flutter/material.dart';
@@ -26,10 +28,12 @@ import 'package:intl/intl.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart'; // No alias needed
 import 'package:geocoding/geocoding.dart' as geoCoding;
+
 class DashboardScreen extends StatefulWidget {
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
+
 class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int? _expandedIndex; // Variable to track the expanded tile index
@@ -53,7 +57,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'icon': Icons.format_quote,
       'children': [
         {'subtitle': 'Quotation List', 'icon': Icons.format_quote_outlined},
-        {'subtitle': 'Add Product Quotation', 'icon': Icons.format_quote_outlined},
+        {
+          'subtitle': 'Add Product Quotation',
+          'icon': Icons.format_quote_outlined
+        },
         {'subtitle': 'Add Product Combo', 'icon': Icons.format_quote_outlined},
         {'subtitle': 'Services', 'icon': Icons.local_laundry_service},
         {'subtitle': 'Services Schedules', 'icon': Icons.schedule},
@@ -63,15 +70,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'title': 'Services Request',
       'icon': Icons.miscellaneous_services_outlined,
       'children': [
-        {'subtitle': 'Existing Product', 'icon': Icons.production_quantity_limits},
-        {'subtitle': 'Non Existing Product', 'icon': Icons.miscellaneous_services},
+        {
+          'subtitle': 'Existing Product',
+          'icon': Icons.production_quantity_limits
+        },
+        {
+          'subtitle': 'Non Existing Product',
+          'icon': Icons.miscellaneous_services
+        },
       ],
     },
     {
       'title': 'Employee',
       'icon': Icons.person,
       'children': [
-        {'subtitle': 'Profile Details', 'icon': Icons.perm_contact_cal_outlined},
+        {
+          'subtitle': 'Profile Details',
+          'icon': Icons.perm_contact_cal_outlined
+        },
         {'subtitle': 'All Leaves', 'icon': Icons.leave_bags_at_home_sharp},
         // {'subtitle': 'Attendance Clock-In', 'icon': Icons.lock_clock},
         // {'subtitle': 'Attendance Clock-Out', 'icon': Icons.lock_clock_outlined},
@@ -81,24 +97,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   List<dynamic> _items = [
-    {
-      "title": "Item 1",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "title": "Item 2",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "title": "Item 3",
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "title": "Item 4",
-      "image": "https://via.placeholder.com/150"
-    }
+    {"title": "Item 1", "image": "https://via.placeholder.com/150"},
+    {"title": "Item 2", "image": "https://via.placeholder.com/150"},
+    {"title": "Item 3", "image": "https://via.placeholder.com/150"},
+    {"title": "Item 4", "image": "https://via.placeholder.com/150"}
   ];
-
 
   List<OrdinalSales> parseSalesData(List<Map<String, dynamic>> jsonData) {
     return jsonData.map((item) {
@@ -111,8 +114,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }).toList();
   }
-
-
 
   final animationsMap = {
     'columnOnPageLoadAnimation1': AnimationInfo(
@@ -197,45 +198,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
       "title": "Sun",
       "x-axis": "10",
       "y-axis": "20",
-      "z-axis": "30"  // New value for the third line
+      "z-axis": "30" // New value for the third line
     },
     {
       "title": "Mon",
       "x-axis": "30",
       "y-axis": "40",
-      "z-axis": "50"  // New value for the third line
+      "z-axis": "50" // New value for the third line
     },
     {
       "title": "Tue",
       "x-axis": "50",
       "y-axis": "60",
-      "z-axis": "70"  // New value for the third line
+      "z-axis": "70" // New value for the third line
     },
     {
       "title": "Wed",
       "x-axis": "60",
       "y-axis": "70",
-      "z-axis": "80"  // New value for the third line
+      "z-axis": "80" // New value for the third line
     },
     {
       "title": "Thu",
       "x-axis": "40",
       "y-axis": "50",
-      "z-axis": "60"  // New value for the third line
+      "z-axis": "60" // New value for the third line
     },
     {
       "title": "Fri",
       "x-axis": "70",
       "y-axis": "80",
-      "z-axis": "90"  // New value for the third line
+      "z-axis": "90" // New value for the third line
     },
     {
       "title": "Sat",
       "x-axis": "70",
       "y-axis": "80",
-      "z-axis": "100"  // New value for the third line
+      "z-axis": "100" // New value for the third line
     },
-
   ];
   final AttendanceService _attendanceService = AttendanceService();
 
@@ -258,10 +258,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         throw Exception("Location services are disabled.");
       }
 
-      geo.LocationPermission permission = await geo.Geolocator.checkPermission();
+      geo.LocationPermission permission =
+          await geo.Geolocator.checkPermission();
       if (permission == geo.LocationPermission.denied) {
         permission = await geo.Geolocator.requestPermission();
-        if (permission != geo.LocationPermission.whileInUse && permission != geo.LocationPermission.always) {
+        if (permission != geo.LocationPermission.whileInUse &&
+            permission != geo.LocationPermission.always) {
           throw Exception("Location permissions are denied.");
         }
       }
@@ -276,7 +278,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         position.longitude,
       );
       final placemark = placemarks.first;
-      final address = '${placemark.locality ?? ''}, ${placemark.subLocality ?? ''}'; // Customize as needed
+      final address =
+          '${placemark.locality ?? ''}, ${placemark.subLocality ?? ''}'; // Customize as needed
 
       // Update button text based on buttonType
       setState(() {
@@ -293,7 +296,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +359,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: <Widget>[
               UserAccountsDrawerHeader(
                 accountName: Text("Mehnaj Khan", style: FTextStyle.nameProfile),
-                accountEmail: Text("mehnaj@example.com", style: FTextStyle.emailProfile),
+                accountEmail:
+                    Text("mehnaj@example.com", style: FTextStyle.emailProfile),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Icon(Icons.person),
@@ -369,7 +372,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: SizedBox(
-                  height: (displayType == 'desktop' || displayType == 'tablet') ? 70 : 52,
+                  height: (displayType == 'desktop' || displayType == 'tablet')
+                      ? 70
+                      : 52,
                   child: ElevatedButton.icon(
                     onPressed: () => _updateButtonText('attendance'),
                     style: ElevatedButton.styleFrom(
@@ -378,18 +383,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       backgroundColor: AppColors.primaryColour,
                     ),
-                    icon: Icon(Icons.lock_clock, color: Colors.white), // Icon for attendance
+                    icon: Icon(Icons.lock_clock, color: Colors.white),
+                    // Icon for attendance
                     label: Text(
                       buttonText,
                       style: FTextStyle.loginBtnStyle,
                     ),
                   ),
-                ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                ).animateOnPageLoad(
+                    animationsMap['imageOnPageLoadAnimation2']!),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
                 child: SizedBox(
-                  height: (displayType == 'desktop' || displayType == 'tablet') ? 70 : 52,
+                  height: (displayType == 'desktop' || displayType == 'tablet')
+                      ? 70
+                      : 52,
                   child: ElevatedButton.icon(
                     onPressed: () => _updateButtonText('logout'),
                     style: ElevatedButton.styleFrom(
@@ -398,18 +408,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       backgroundColor: AppColors.primaryColour,
                     ),
-                    icon: Icon(Icons.lock_clock_outlined, color: Colors.white), // Icon for logout
+                    icon: Icon(Icons.lock_clock_outlined, color: Colors.white),
+                    // Icon for logout
                     label: Text(
                       buttonTextLogout,
                       style: FTextStyle.loginBtnStyle,
                     ),
                   ),
-                ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                ).animateOnPageLoad(
+                    animationsMap['imageOnPageLoadAnimation2']!),
               ),
               ...buildDrawerItems(),
-
-
-
             ],
           ),
         ),
@@ -418,7 +427,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 28.0,top: 20),
+              padding: const EdgeInsets.only(left: 28.0, top: 20),
               child: Row(
                 children: [
                   Text("Hello !  ", style: FTextStyle.HeadingTxtStyle),
@@ -426,10 +435,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 28.0,right: 28.0,bottom: 10,top: 20),
+                padding: const EdgeInsets.only(
+                    left: 28.0, right: 28.0, bottom: 10, top: 20),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, // Number of columns
@@ -440,7 +449,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   itemBuilder: (context, index) {
                     final item = _items[index];
                     return Container(
-
                       decoration: BoxDecoration(
                         color: Colors.white,
                         // border: Border.all(color: Colors.black),
@@ -461,7 +469,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             item['image'], // Image URL from JSON
                             width: 100, // Width of the image
                             height: 100, // Height of the image
-                            fit: BoxFit.cover, // Fit the image inside the container
+                            fit: BoxFit
+                                .cover, // Fit the image inside the container
                           ),
                           SizedBox(height: 8.0), // Space between image and text
                           Text(
@@ -478,12 +487,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
-
             Container(
               height: screenHeight * 0.35,
               child: ColumnChart(salesData: salesData),
             ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
-
           ],
         ),
       ),
@@ -584,16 +591,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'Dashboard':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  DashboardScreen()),
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
         );
-      // Handle Dashboard tap
+        // Handle Dashboard tap
         break;
       case 'Logout':
         _showDeleteDialog();
-      // Handle Logout tap
+        // Handle Logout tap
         break;
       default:
-      // Handle other regular menu items
+        // Handle other regular menu items
         break;
     }
   }
@@ -618,7 +625,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'Product Category':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ProductCategoryScreen()),
+          MaterialPageRoute(
+              builder: (context) => const ProductCategoryScreen()),
         );
         break;
       case 'Combo Product':
@@ -637,22 +645,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'Customers & Dealers':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CustomersDealersScreen()),
+          MaterialPageRoute(
+              builder: (context) => const CustomersDealersScreen()),
         );
         break;
       case 'Add Product Quotation':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  CreateQuotationScreen()),
+          MaterialPageRoute(builder: (context) => CreateQuotationScreen()),
         );
         break;
-        case 'Quotation List':
+      case 'Quotation List':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const QuotationList()),
         );
         break;
-        case 'Add Product Combo':
+      case 'Add Product Combo':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const CreateCombo()),
@@ -667,23 +676,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'Existing Product':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ExistingProductScreen()),
+          MaterialPageRoute(
+              builder: (context) => const ExistingProductScreen()),
         );
         break;
-        case 'Profile Details':
+      case 'Profile Details':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  EmployeeDetails()),
+          MaterialPageRoute(builder: (context) => EmployeeDetails()),
         );
         break;
-        case 'All Leaves':
+      case 'All Leaves':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  AllLeaves()),
+          MaterialPageRoute(builder: (context) => AllLeaves()),
         );
         break;
       default:
-      // Handle unknown submenu item
+        // Handle unknown submenu item
         break;
     }
   }
@@ -698,7 +708,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Are you sure you want to logout?", style: FTextStyle.preHeadingStyle),
+                Text("Are you sure you want to logout?",
+                    style: FTextStyle.preHeadingStyle),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -710,7 +721,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      child: const Text("Cancel", style: TextStyle(color: Colors.black)),
+                      child: const Text("Cancel",
+                          style: TextStyle(color: Colors.black)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -723,11 +735,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      child: const Text("OK", style: TextStyle(color: Colors.white)),
+                      child: const Text("OK",
+                          style: TextStyle(color: Colors.white)),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                    create: (context) => AuthFlowBloc(),
+                                    child: LoginScreen(),
+                                  )),
                         );
                       },
                     ),
@@ -741,8 +758,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-class ColumnChart extends StatelessWidget
-{
+
+class ColumnChart extends StatelessWidget {
   final List<OrdinalSales> salesData;
 
   ColumnChart({required this.salesData});
@@ -764,7 +781,8 @@ class ColumnChart extends StatelessWidget
           xValueMapper: (OrdinalSales sales, _) => sales.month,
           yValueMapper: (OrdinalSales sales, _) => sales.sales1,
           color: AppColors.appBlue,
-          width: 0.9, // Customize width for this series
+          width: 0.9,
+          // Customize width for this series
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
             textStyle: TextStyle(
@@ -777,11 +795,13 @@ class ColumnChart extends StatelessWidget
           xValueMapper: (OrdinalSales sales, _) => sales.month,
           yValueMapper: (OrdinalSales sales, _) => sales.sales2,
           color: AppColors.primaryPinkColor,
-          width: 0.9, // Customize width for this series
+          width: 0.9,
+          // Customize width for this series
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
             textStyle: TextStyle(
-              color: AppColors.primaryPinkColor, // Customize text color for data labels
+              color: AppColors
+                  .primaryPinkColor, // Customize text color for data labels
             ),
           ),
         ),
@@ -789,12 +809,14 @@ class ColumnChart extends StatelessWidget
           dataSource: salesData,
           xValueMapper: (OrdinalSales sales, _) => sales.month,
           yValueMapper: (OrdinalSales sales, _) => sales.sales3,
-          color: Colors.amberAccent, // Choose a new color for the third line
-          width: 0.9, // Customize width for this series
+          color: Colors.amberAccent,
+          // Choose a new color for the third line
+          width: 0.9,
+          // Customize width for this series
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
             textStyle: TextStyle(
-              color:Colors.amberAccent, // Customize text color for data labels
+              color: Colors.amberAccent, // Customize text color for data labels
             ),
           ),
         ),
@@ -802,8 +824,6 @@ class ColumnChart extends StatelessWidget
     );
   }
 }
-
-
 
 class OrdinalSales {
   final String month;
@@ -813,8 +833,3 @@ class OrdinalSales {
 
   OrdinalSales(this.month, this.sales1, this.sales2, this.sales3);
 }
-
-
-
-
-

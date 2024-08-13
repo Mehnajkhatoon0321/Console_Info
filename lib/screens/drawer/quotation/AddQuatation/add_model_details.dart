@@ -171,15 +171,24 @@ class _AddModelDetailsState extends State<AddModelDetails> {
       productCategory.text=widget.modelName;
       warranty.text = widget.warranty;
       brand.text=widget.brandName;
-      priceController.text=widget.amount;
-      quantityController.text=widget.quantity;
-      NumberFormat format = NumberFormat.currency(symbol: '₹', decimalDigits: 0);
-      total.value = format.parse(widget.total).toInt();
+      priceController.text= widget.amount;
+      // quantityController.text=widget.quantity;
+      total.value = _parseCurrency(widget.total);
+      quantityController.text = widget.quantity;
 
+      // Initialize quantity with the value from widget.quantity
+      quantity = int.tryParse(widget.quantity) ?? 1;
+      quantityController.text = "$quantity";
 
     }
     // TODO: implement initState
     super.initState();
+  }
+
+  int _parseCurrency(String currency) {
+    // Remove any non-numeric characters, except for digits
+    final sanitized = currency.replaceAll(RegExp(r'[^\d]'), '');
+    return int.tryParse(sanitized) ?? 0;
   }
   late final GlobalKey<FormFieldState<String>> _descriptionsKey =
   GlobalKey<FormFieldState<String>>();
@@ -356,7 +365,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                                 brand.text = category['brandName'] ?? '';
                                 quantityController.text = category['quantity'] ?? '';
                                 warranty.text = category['waranty'] ?? '';
-                                total.value = int.tryParse(category['total'] ?? '0') ?? 0;
+                                total.value = int.tryParse(category['total'] ?? '0')! ;
                               });
                               Navigator.pop(context);
                             },
@@ -526,7 +535,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                          height: (MediaQuery.of(context).size.width >= 1024) ? 60 : 27,
                          child: ElevatedButton(
                            onPressed: () {
-                             Navigator.push(context, MaterialPageRoute(builder:(context) => ProductEdit(
+                             Navigator.push(context, MaterialPageRoute(builder:(context) => const ProductEdit(
         
                                screenFlag :"edit",
                                productDescription:"",
@@ -752,7 +761,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                              controller: quantityController,
                              onChanged: (value) {
                                setState(() {
-                                 isQuantityFieldFocused=true;
+                                 isQuantityFieldFocused = true;
                                  quantity = int.tryParse(value) ?? 1;
                                  _updateTotal();
                                });
@@ -763,59 +772,58 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                              inputFormatters: [
                                FilteringTextInputFormatter.digitsOnly,
                              ],
-
-                             decoration:FormFieldStyle.defaultAddressInputDecoration.copyWith(  filled: true,
-                                 prefixIcon: InkWell(
-                                   onTap: () {
-                                     setState(() {
-                                       if (quantity > 1) {
-                                         quantity -= 1;
-                                         quantityController.text = "$quantity";
-                                         _updateTotal();
-                                       }
-                                     });
-                                   },
-                                   child: Container(
-                                     margin: const EdgeInsets.symmetric(horizontal: 5),
-                                     decoration: BoxDecoration(
-                                       color: AppColors.primaryColour,
-                                       borderRadius: BorderRadius.circular(10),
-                                     ),
-                                     child: const Icon(
-                                       Icons.remove,
-                                       color: Colors.white,
-                                     ),
-                                   ),
-                                 ),
-                                 suffixIcon: InkWell(
-                                   onTap: () {
-                                     setState(() {
-
-                                       quantity += 1;
+                             decoration: FormFieldStyle.defaultAddressInputDecoration.copyWith(
+                               filled: true,
+                               prefixIcon: InkWell(
+                                 onTap: () {
+                                   setState(() {
+                                     if (quantity > 1) {
+                                       quantity -= 1;
                                        quantityController.text = "$quantity";
                                        _updateTotal();
-                                     });
-                                   },
-                                   child: Container(
-                                     margin: const EdgeInsets.symmetric(horizontal: 5),
-                                     decoration: BoxDecoration(
-                                       color:AppColors.primaryColour,
-                                       borderRadius: BorderRadius.circular(10),
-                                     ),
-                                     child: const Icon(
-                                       Icons.add,
-                                       color: Colors.white,
-                                     ),
+                                     }
+                                   });
+                                 },
+                                 child: Container(
+                                   margin: const EdgeInsets.symmetric(horizontal: 5),
+                                   decoration: BoxDecoration(
+                                     color: AppColors.primaryColour,
+                                     borderRadius: BorderRadius.circular(10),
+                                   ),
+                                   child: const Icon(
+                                     Icons.remove,
+                                     color: Colors.white,
                                    ),
                                  ),
-                                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                                 hintText: "Quantity",
-                                 counterText: "",
-                             )
-
+                               ),
+                               suffixIcon: InkWell(
+                                 onTap: () {
+                                   setState(() {
+                                     quantity += 1;
+                                     quantityController.text = "$quantity";
+                                     _updateTotal();
+                                   });
+                                 },
+                                 child: Container(
+                                   margin: const EdgeInsets.symmetric(horizontal: 5),
+                                   decoration: BoxDecoration(
+                                     color: AppColors.primaryColour,
+                                     borderRadius: BorderRadius.circular(10),
+                                   ),
+                                   child: const Icon(
+                                     Icons.add,
+                                     color: Colors.white,
+                                   ),
+                                 ),
+                               ),
+                               contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                               hintText: "Quantity",
+                               counterText: "",
+                             ),
                            ),
                          ),
-                       ),
+                       )
+
                      ],
                    ),
                    const SizedBox(height: 20),
@@ -970,13 +978,8 @@ class _AddModelDetailsState extends State<AddModelDetails> {
     );
   }
   void _updateTotal() {
-
-
-       int priceValue = int.tryParse(priceController.text.trim()) ?? 0;
-       total.value = priceValue * quantity;
-
-
-
-
+    int priceValue = int.tryParse(priceController.text.trim()) ?? 0;
+    total.value = priceValue * quantity;
   }
+
 }

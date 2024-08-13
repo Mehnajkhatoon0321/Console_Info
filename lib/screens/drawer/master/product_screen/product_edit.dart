@@ -24,6 +24,7 @@ class ProductEdit extends StatefulWidget {
 
 class _ProductEditState extends State<ProductEdit> {
   late final formKey = GlobalKey<FormState>();
+  TextEditingController _editController = TextEditingController();
   late final TextEditingController model = TextEditingController();
   late final TextEditingController customerPrice = TextEditingController();
   late final TextEditingController dealerPrice = TextEditingController();
@@ -299,11 +300,37 @@ class _ProductEditState extends State<ProductEdit> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  Text(
-                    "Product Category ",
-                    style: FTextStyle.formLabelTxtStyle,
-                  ).animateOnPageLoad(
-                      animationsMap['imageOnPageLoadAnimation2']!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Product Category ",
+                        style: FTextStyle.formLabelTxtStyle,
+                      ).animateOnPageLoad(
+                          animationsMap['imageOnPageLoadAnimation2']!),
+
+
+                      SizedBox(
+                        height: (MediaQuery.of(context).size.width >= 1024) ? 60 : 25,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _showEditDialog(-1);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            backgroundColor: AppColors.primaryColour,
+                          ),
+                          child: Text(
+                            'Add Product',
+                            style: FTextStyle.loginBtnStyle,
+                          ),
+                        ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                      ).animateOnPageLoad(
+                          animationsMap['imageOnPageLoadAnimation2']!),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: DropdownButtonFormField<String>(
@@ -665,6 +692,97 @@ class _ProductEditState extends State<ProductEdit> {
           const SizedBox(height: 20),
         ],
       ),
+    );
+  }
+  void _showEditDialog(int index) {
+    // Clear or set the controller's text based on the action
+
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          title: Text(
+            "Add Product " ,
+            style: FTextStyle.preHeadingStyle,
+          ),
+          content: Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _editController,
+                  decoration: InputDecoration(
+                    hintText: "Enter new product name" ,
+                    hintStyle: FTextStyle.formhintTxtStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(23.0),
+                      borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(23.0),
+                      borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(23.0),
+                      borderSide: const BorderSide(color: AppColors.primaryColour, width: 1.0),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 18.0),
+                    fillColor: Colors.grey[100],
+                    filled: true,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.FormFieldBackColour,
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: TextButton(
+                child: const Text("Cancel", style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+            ),
+            const SizedBox(width: 10), // Add spacing between buttons
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primaryColour,
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: TextButton(
+                child: const Text("OK", style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  if (_editController.text.isNotEmpty) {
+                    // setState(() {
+                    //   if (index == -1) {
+                    //    listData.add({"brand_name": _editController.text});
+                    //   } else {
+                    //     listData[index]["brand_name"] = _editController.text;
+                    //   }
+                    // });
+                    Navigator.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Brand name cannot be empty.")),
+                    );
+                  }
+                },
+              ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+            ),
+          ],
+        ).animateOnPageLoad(animationsMap['columnOnPageLoadAnimation1']!);
+      },
     );
   }
 }

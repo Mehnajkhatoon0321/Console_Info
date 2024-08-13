@@ -176,15 +176,16 @@ class _LoginScreenState extends State<LoginScreen> {
         });
 
         Map<String, dynamic> data = state.logResponse;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>  DashboardScreen(),
+          ),
+        );
         if (data["token"] != null) {
           String bearerToken = data["token"];
           PrefUtils.setToken(bearerToken);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>  DashboardScreen(),
-            ),
-          );
+
         }
 
 
@@ -472,7 +473,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? AppColors.primaryColour
                               : AppColors.drawerdisableButtonColor,
                         ),
-                        child:Text(
+                        child:
+                        Text(
                             Constants.loginBtnTxt,
                             style: FTextStyle.loginBtnStyle,
                           )

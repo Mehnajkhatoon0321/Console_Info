@@ -41,9 +41,9 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       "brand": "Brand X",
       "gst": "Included",
       "warranty": "2 Years",
-      "price": "₹1000",
+      "price": "1000",
       "quantity": "10",
-      "total": "₹10000",
+      "total": "10000",
       "description":"4 MP DOME FULL COLOUR SILVER SERIES"
     },
     {
@@ -51,9 +51,9 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       "brand": "Brand Y",
       "gst": "Excluded",
       "warranty": "1 Year",
-      "price": "₹2000",
+      "price": "2000",
       "quantity": "5",
-      "total": "₹10000",
+      "total": "10000",
       "description":"4 MP DOME FULL COLOUR SILVER SERIES"
     },
     // Add more items as needed
@@ -64,17 +64,17 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
       "validity": "2025-03-15",
       "gst": "Included",
       "paymentstatus": "2 Years",
-      "price": "₹1000",
+      "price": "1000",
       "quantity": "10",
-      "total": "₹10"},
+      "total": "10"},
     {
       "service": "Service A",
       "validity": "2025-03-15",
       "gst": "Included",
       "paymentstatus": "2 Years",
-      "price": "₹1000",
+      "price": "1000",
       "quantity": "10",
-      "total": "₹200",
+      "total": "200",
     },
 
     // Add more items as needed
