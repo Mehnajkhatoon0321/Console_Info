@@ -63,6 +63,7 @@ class _ProductEditState extends State<ProductEdit> {
   late final FocusNode _remarkNode = FocusNode();
 
 
+   String addModel = 'addModel'; // Define the constant
 
   bool isButtonEnabled = false;
 
@@ -310,25 +311,28 @@ class _ProductEditState extends State<ProductEdit> {
                           animationsMap['imageOnPageLoadAnimation2']!),
 
 
-                      SizedBox(
-                        height: (MediaQuery.of(context).size.width >= 1024) ? 60 : 25,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _showEditDialog(-1);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
+                      Visibility(
+                        visible: widget.screenFlag == addModel,
+                        child: SizedBox(
+                          height: (MediaQuery.of(context).size.width >= 1024) ? 60 : 25,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _showEditDialog(-1);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              backgroundColor: AppColors.primaryColour,
                             ),
-                            backgroundColor: AppColors.primaryColour,
-                          ),
-                          child: Text(
-                            'Add Product',
-                            style: FTextStyle.loginBtnStyle,
-                          ),
-                        ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
-                      ).animateOnPageLoad(
-                          animationsMap['imageOnPageLoadAnimation2']!),
+                            child: Text(
+                              'Add Product',
+                              style: FTextStyle.loginBtnStyle,
+                            ),
+                          ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                        ).animateOnPageLoad(
+                            animationsMap['imageOnPageLoadAnimation2']!),
+                      ),
                     ],
                   ),
                   Padding(
@@ -370,11 +374,39 @@ class _ProductEditState extends State<ProductEdit> {
                     ),
                   ),
 
-                  Text(
-                    "Brand",
-                    style: FTextStyle.formLabelTxtStyle,
-                  ).animateOnPageLoad(
-                      animationsMap['imageOnPageLoadAnimation2']!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Brand",
+                        style: FTextStyle.formLabelTxtStyle,
+                      ).animateOnPageLoad(
+                          animationsMap['imageOnPageLoadAnimation2']!),
+
+                      Visibility(
+                        visible: widget.screenFlag == addModel,
+                        child: SizedBox(
+                          height: (MediaQuery.of(context).size.width >= 1024) ? 60 : 25,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _showBrandDialog(-1);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              backgroundColor: AppColors.primaryColour,
+                            ),
+                            child: Text(
+                              'Add Services',
+                              style: FTextStyle.loginBtnStyle,
+                            ),
+                          ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                        ).animateOnPageLoad(
+                            animationsMap['imageOnPageLoadAnimation2']!),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: DropdownButtonFormField<String>(
@@ -695,8 +727,9 @@ class _ProductEditState extends State<ProductEdit> {
     );
   }
   void _showEditDialog(int index) {
-    // Clear or set the controller's text based on the action
-
+    // Create a GlobalKey to manage the form state
+    final _formKey = GlobalKey<FormState>();
+    final TextEditingController _editController = TextEditingController();
 
     showDialog(
       context: context,
@@ -707,38 +740,47 @@ class _ProductEditState extends State<ProductEdit> {
             borderRadius: BorderRadius.circular(32.0),
           ),
           title: Text(
-            "Add Product " ,
+            "Add Product",
             style: FTextStyle.preHeadingStyle,
           ),
           content: Container(
             constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _editController,
-                  decoration: InputDecoration(
-                    hintText: "Enter new product name" ,
-                    hintStyle: FTextStyle.formhintTxtStyle,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(23.0),
-                      borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: _editController,
+                    decoration: InputDecoration(
+                      hintText: "Enter new product name",
+                      hintStyle: FTextStyle.formhintTxtStyle,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.primaryColour, width: 1.0),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 18.0),
+                      fillColor: Colors.grey[100],
+                      filled: true,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(23.0),
-                      borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(23.0),
-                      borderSide: const BorderSide(color: AppColors.primaryColour, width: 1.0),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 18.0),
-                    fillColor: Colors.grey[100],
-                    filled: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Product name cannot be empty.';
+                      }
+                      return null; // Return null if validation passes
+                    },
                   ),
-                ),
-                const SizedBox(height: 20),
-              ],
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -763,19 +805,19 @@ class _ProductEditState extends State<ProductEdit> {
               child: TextButton(
                 child: const Text("OK", style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  if (_editController.text.isNotEmpty) {
-                    // setState(() {
-                    //   if (index == -1) {
-                    //    listData.add({"brand_name": _editController.text});
-                    //   } else {
-                    //     listData[index]["brand_name"] = _editController.text;
-                    //   }
-                    // });
-                    Navigator.of(context).pop();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Brand name cannot be empty.")),
-                    );
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // Validation passed
+                    if (_editController.text.isNotEmpty) {
+                      // Handle the product addition/update here
+                      // setState(() {
+                      //   if (index == -1) {
+                      //     listData.add({"brand_name": _editController.text});
+                      //   } else {
+                      //     listData[index]["brand_name"] = _editController.text;
+                      //   }
+                      // });
+                      Navigator.of(context).pop();
+                    }
                   }
                 },
               ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
@@ -785,4 +827,109 @@ class _ProductEditState extends State<ProductEdit> {
       },
     );
   }
+  void _showBrandDialog(int index) {
+    // Create a GlobalKey to manage the form state
+    final _formKey = GlobalKey<FormState>();
+    final TextEditingController _editController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          title: Text(
+            "Add Brand",
+            style: FTextStyle.preHeadingStyle,
+          ),
+          content: Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: _editController,
+                    decoration: InputDecoration(
+                      hintText: "Enter new brand name",
+                      hintStyle: FTextStyle.formhintTxtStyle,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.FormFieldHintColour, width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(23.0),
+                        borderSide: const BorderSide(color: AppColors.primaryColour, width: 1.0),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 18.0),
+                      fillColor: Colors.grey[100],
+                      filled: true,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Brand name cannot be empty.';
+                      }
+                      return null; // Return null if validation passes
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.FormFieldBackColour,
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: TextButton(
+                child: const Text("Cancel", style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+            ),
+            const SizedBox(width: 10), // Add spacing between buttons
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primaryColour,
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: TextButton(
+                child: const Text("OK", style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // Validation passed
+                    if (_editController.text.isNotEmpty) {
+                      // Handle the product addition/update here
+                      // setState(() {
+                      //   if (index == -1) {
+                      //     listData.add({"brand_name": _editController.text});
+                      //   } else {
+                      //     listData[index]["brand_name"] = _editController.text;
+                      //   }
+                      // });
+                      Navigator.of(context).pop();
+                    }
+                  }
+                },
+              ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+            ),
+          ],
+        ).animateOnPageLoad(animationsMap['columnOnPageLoadAnimation1']!);
+      },
+    );
+  }
+
+
+
+
 }

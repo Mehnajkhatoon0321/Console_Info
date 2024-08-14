@@ -6,12 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FTextStyle {
 
  
-  static  TextStyle filterTextstyle = TextStyle(
-    fontFamily: 'Outfit-SemiBold',
-    fontSize: 18.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.drawerTextColor,
-  );
 
   static const smallTextBlack =TextStyle(
     fontFamily: 'Outfit-Regular',
@@ -34,13 +28,6 @@ class FTextStyle {
       fontWeight: FontWeight.w500);
 
 
-  static TextStyle HeadingTab = TextStyle(
-      fontSize: 28.sp,
-      color: AppColors.primaryColour,
-
-
-      fontFamily: 'Outfit-SemiBold',
-      fontWeight: FontWeight.w900);
 
 
 
@@ -93,11 +80,6 @@ class FTextStyle {
     color: AppColors.drawerTextColor,
   );
 
-  static TextStyle tncStyle = TextStyle(
-      fontSize: 12.sp,
-      color: AppColors.headingTxtColour,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
   static TextStyle formSubheadingTxtStyle = TextStyle(
       fontSize: 14.sp,
@@ -124,18 +106,7 @@ class FTextStyle {
   );
 
 
-  static TextStyle timerTextStyle = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 14.sp,
-    color: AppColors.FormFielderrorColour,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle addStyle = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 16.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.primaryColour,
-  );
+
 
 
   static TextStyle authlogin_signupTxtStyle = TextStyle(
@@ -154,11 +125,6 @@ class FTextStyle {
       fontFamily: 'Outfit-Regular',
       fontWeight: FontWeight.w400);
 
-  static TextStyle tnc2Style = TextStyle(
-      fontSize: 12.sp,
-      color: AppColors.primaryColour,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
 
 
@@ -227,30 +193,10 @@ class FTextStyle {
     fontWeight: FontWeight.bold,
     color: AppColors.aboutUsHeadingColor,
   );
-  static TextStyle aboutUsText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.aboutUsTextcolor,
-  );
 
-  static TextStyle contactUsLabelTxtStyle = TextStyle(
-      fontSize: 15.sp,
-      color: AppColors.aboutUsHeadingColor,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
-  static TextStyle contactUsdetailsTxtStyle = TextStyle(
-      fontSize: 14.sp,
-      color: AppColors.contactUsTextcolor,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.bold);
 
-  static TextStyle FaqsSubTxtStyle = TextStyle(
-      fontSize: 14.sp,
-      color: AppColors.contactUsTextcolor,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
+
 
   static const TextStyle formhintTxtStyle = TextStyle(
       // fontSize: 11.sp,  //16 normal
@@ -301,39 +247,7 @@ class FTextStyle {
 
 
 
-  static TextStyle formFieldErrorTxtStyleTablet = TextStyle(
-    fontFamily: 'Poppins-Regular',
-    fontSize: 7.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.errorColor,
-  );
-  static const formFieldErrorTxtStyle = TextStyle(
-    fontFamily: 'Poppins-Regular',
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: AppColors.errorColor,
-  );
 
-  static TextStyle SeeAllText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 15.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.drawerButton1Color,
-  );
-
-  static TextStyle CategoriesText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 10.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.drawerTextColor,
-  );
-
-
- static TextStyle doNotHave = TextStyle(
-      fontSize: 14.sp,
-      color: AppColors.hospital1Textcolor,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
 
 
@@ -357,56 +271,8 @@ class FTextStyle {
       fontWeight: FontWeight.w500);
 
 
-  static TextStyle CategoriesNameText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 10.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.aboutUsHeadingColor,
-  );
-  static TextStyle ProductsNameText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 12.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.aboutUsHeadingColor,
-  );
-  static TextStyle ProductsDetailsText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 9.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.productdetailsColor,
-  );
-  static TextStyle ProductsPriceText = TextStyle(
-    fontFamily: 'Outfit-SemiBold',
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w400,
-    color: AppColors.drawerButton1Color,
-  );
-  static TextStyle UserNameText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 24.sp,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-  );
-  static TextStyle OrderButtonText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 16.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.primaryColour,
-  );
-  static TextStyle ConfirmedButtonText = TextStyle(
-    fontFamily: 'Outfit-Regular',
-    fontSize: 18.sp,
-    fontWeight: FontWeight.bold,
-    color: AppColors.headingTxtColour,
-  );
-  
-  static  TextStyle productCard = TextStyle(
-    fontFamily: 'Outfit-Regular',
 
-    fontSize: 10.sp,
-    fontWeight: FontWeight.normal,
-    color: Colors.white,
-  );
+
 
   static TextStyle cartItemColors = TextStyle(
       fontSize: 14.sp,
@@ -415,18 +281,8 @@ class FTextStyle {
       fontWeight: FontWeight.w400);
 
 
-  static TextStyle successItemColors = TextStyle(
-      fontSize: 12.sp,
-      color: AppColors.contactUsTextcolor,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
 
-  static TextStyle doctorbutton1TextStyle = TextStyle(
-      fontSize: 13.17,
-      color: AppColors.patientApplyTextButton,
-      fontFamily: 'Outfit-Regular',
-      fontWeight: FontWeight.w400);
 
 
 

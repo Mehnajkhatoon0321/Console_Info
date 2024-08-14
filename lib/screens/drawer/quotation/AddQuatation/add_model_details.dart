@@ -537,7 +537,7 @@ class _AddModelDetailsState extends State<AddModelDetails> {
                            onPressed: () {
                              Navigator.push(context, MaterialPageRoute(builder:(context) => const ProductEdit(
         
-                               screenFlag :"edit",
+                               screenFlag :"addModel",
                                productDescription:"",
                                barandname:   "",
                                model: "",

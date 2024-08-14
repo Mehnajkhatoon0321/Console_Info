@@ -1300,6 +1300,38 @@ class _CreateQuotationScreenState extends State<CreateQuotationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
+                        Padding(
+                          padding:  EdgeInsets.symmetric(vertical: 10.h),
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: AppColors.FormFieldBackColour,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: AppColors.FormFieldBorderColour)
+                            ),
+
+
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Sub Total",
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                  ).animateOnPageLoad(
+                                    animationsMap['imageOnPageLoadAnimation2']!,
+                                  ),
+                                  Text(
+                                    "₹${totalAmount+(isServiceSelected ? totalAmountServices : 0)}",
+                                    style: FTextStyle.formLabelTxtStyle,
+                                  ).animateOnPageLoad(animationsMap['imageOnPageLoadAnimation2']!),
+                                ],
+                              ),
+                            ),
+                          ),),
+
                         // First Text and TextFormField Pair
                         Row(
                           children: [

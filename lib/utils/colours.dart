@@ -7,22 +7,22 @@ class AppColors extends MaterialColor {
   static const Color FormFieldBackColour = Color(0xFFF3F2F3);
   static const Color FormFieldHintColour = Color(0xFF83828A);
   static const Color FormFielderrorColour = Color(0xFFB92828);
-  static const boarderColour = Color(0xFFdfdfdf);
+
   static const errorColor = Color(0xFFD90000);
 
   //Guest User Colors
   static const Color drawerTextColor = Color(0xFF080515);
     static const Color dividerColor = Color(0xFFCECDD0);
   static const Color drawerButton1Color = Color(0xFF681E65);
-  static const Color drawerButton2Color = Color(0xFFF0E8F0);
+
   static const Color bottomNavTextColor = Color(0xFF83828A);
   static const Color aboutUsHeadingColor = Color(0xFF080515);
   static const Color aboutUsTextcolor = Color(0xFF393744);
   static const Color contactUsTextcolor = Color(0xFF6B6973);
-  static const Color contactUsBlueTextcolor = Color(0xFF5191F2);
+
   static const Color hospital1Textcolor = Color(0xFF52505B);
-  static const Color hospital2Textcolor = Color(0xFF864B84);
-  static const Color hospitalstarcolor = Color(0xFFE68A00);
+
+
   static const Color InActiveCheckBoxColour = Color(0xFFB5B4B9);
   static const Color dotColor = Color(0xFFCECDD0);
   static const Color activeDotColor = Color(0xFF393744);
@@ -34,18 +34,13 @@ class AppColors extends MaterialColor {
 
   static const Color productdetailsColor = Color.fromARGB(153, 8, 5, 21);
 
-  static const Color patientdividerTextcolor = Color(0xFFE6E6E8);
+
   static const Color patientApplyTextButton = Color(0xFFFFFFFF);
 
-  static const Color patientHealthRecordButtonText = Color(0xFFEA3A3A);
-  static const Color patientLoutSubText = Color(0xFF393744);
-  static const Color patientCartAlertBoxButton = Color(0xFFF0E8F0);
-  static const Color patientLabScreenDownloadTextColor = Color(0xFFE1D2E0);
-    static const Color doctorButtonColor = Color(0xFFE6EE8);
-   static const Color doctorPatientTextColor = Color(0xFF9C9BA1);
-  static const Color DoctorPatientAlertButton = Color(0xFFD93737);
 
-  static const Color patientcolor = Color(0xFF6B6973);
+
+
+
 
   static const Color productBorderColor = Color(0xFFD9D9D9);
   static const Color switchInactiveColor = Color(0xFFCECDD0);

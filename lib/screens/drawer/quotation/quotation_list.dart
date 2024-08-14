@@ -278,6 +278,44 @@ class _QuotationListState extends State<QuotationList> {
                             ],
                           ),
                           const SizedBox(height: 5),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Progress Status:",style: FTextStyle.listTitle) ,
+                              GestureDetector(
+                                onTap:(){
+
+                                },
+
+                                child: Text("Update",style:FTextStyle.listTitle.copyWith(
+                                            color: Colors.blue, // Link color
+                                            decoration: TextDecoration.underline,
+                                  decorationColor: Colors.blue, // Underline color
+                                  decorationThickness: 2, // Thickness of the underline// Underline the text
+                                            )),
+                              )
+                            ],
+
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Whatsapp:",style: FTextStyle.listTitle) ,
+                              Container(
+
+
+                                  child: Text("Send",style: FTextStyle.listTitle.copyWith(
+                                    color: Colors.green, // Link color
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.green, // Underline color
+                                    decorationThickness: 2, // Thickness of the underline// Underline the text
+                                  )),)
+                            ],
+
+                          ),
+                          const SizedBox(height: 5),
                           // Row for Date and Validity
                           Row(
                             children: [
@@ -294,7 +332,7 @@ class _QuotationListState extends State<QuotationList> {
                               Text("${item["validity"]}", style: FTextStyle.listTitleSub),
                             ],
                           ),
-
+                          const SizedBox(height: 5),
 
 
                           // Row for Edit and Delete buttons
