@@ -224,23 +224,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ).animateOnPageLoad(animationsMap[
                     'imageOnPageLoadAnimation2']!),
                     const SizedBox(height:20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Go back to",
-                          style: FTextStyle.formLabelTxtStyle,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
-                          },
-                          child:  Text(
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Go back to",
+                            style: FTextStyle.formLabelTxtStyle,
+                          ),
+                          Text(
                             Constants.signintoAccountTxt,
                             style: FTextStyle.authlogin_signupTxtStyle,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 50,)
                   ],
